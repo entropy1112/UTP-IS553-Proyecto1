@@ -1,0 +1,13 @@
+Proyecto I: Agenda Telefónica
+Autor: Sebastian Narvaez Jaramillo (entropy1112)
+
+Analisis general del proyecto:
+
+Lo que se busca es crear una agenda que permita administrar contactos (añadir,
+eliminar, modificar y consultar) que tendrán campos de información obligatorios
+y otros campos opcionales.
+Estos contactos de guardarán de manera ordenada en un archivo externo de texto
+que servirá también para cargar información al programa.
+
+Analisis estructural y de comportamiento en los diagramas UML del proyecto que
+estan en la carpeta de documentación.
