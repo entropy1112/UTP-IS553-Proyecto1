@@ -6,8 +6,14 @@ Analisis general del proyecto:
 Lo que se busca es crear una agenda que permita administrar contactos (añadir,
 eliminar, modificar y consultar) que tendrán campos de información obligatorios
 y otros campos opcionales.
-Estos contactos de guardarán de manera ordenada en un archivo externo de texto
+Estos contactos se guardarán de manera ordenada en un archivo externo de texto
 que servirá también para cargar información al programa.
+La agenda debe cumplir con ciertas condiciones, como lo son:
+ - Ningún número de teléfono se debe repetir entre los contactos
+ - Se debe poder hacer consultas desde cualquier campo de información
+ - El archivo de texto externo debe mantener una estructura precisa al exportarlo,
+  y un archivo de texto cualquiera, que mantenga esa misma estructura, debe poder
+  ser cargado o importado al programa
 
 Analisis estructural y de comportamiento en los diagramas UML del proyecto que
 estan en la carpeta de documentación.
