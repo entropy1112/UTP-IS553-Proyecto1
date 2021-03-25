@@ -1,5 +1,5 @@
 
-package Main;
+package Clases;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +69,7 @@ public class Agenda implements Operaciones{
             });
             verificar(aux);
         }
-//Luego consulta el teléfono de la agenda principal si la agenda auxiliar sigue
+//Luego consulta el teléfono en la agenda principal si la agenda auxiliar sigue
 //vacía tras la consulta por el nombre
         if(aux.isEmpty() && !"".equals(telefonoCons)){
             agenda.stream()
