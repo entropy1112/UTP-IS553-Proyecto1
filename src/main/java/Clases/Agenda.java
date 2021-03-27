@@ -10,21 +10,53 @@ import java.util.List;
  */
 public class Agenda implements Operaciones{
     //Atributos
-    protected List<Contacto> agenda = new ArrayList();
+    private String dueño;
+    public List<Contacto> agenda = new ArrayList();
     
     //Cosntructor
-    public Agenda() {
+    public Agenda(String dueño) {
+        this.dueño = dueño;
     }
     
     //Métodos
+    public String getDueño() {
+        return dueño;
+    }
+
+    public void setDueño(String dueño) {
+        this.dueño = dueño;
+    }
+
+    public List<Contacto> getAgenda() {
+        return agenda;
+    }
+
+    public void setAgenda(List<Contacto> agenda) {
+        this.agenda = agenda;
+    }
+    
+    
     public void añadirContacto(String nombre, List<String> telefonos, 
                                String email, String direccion, String alias)
                                throws CustomException{
         verificarTelefonos(telefonos);
+        verificarVacio(nombre, telefonos);
         
         Contacto nuevo = new Contacto(nombre,telefonos,email,direccion,alias);
         
         this.agenda.add(nuevo);
+    }
+    
+    public void añadirContacto(Contacto contacto)
+                               throws CustomException{
+        int op = agenda.indexOf(contacto);
+        if(op != -1){
+            agenda.set(op, contacto);
+        }else{
+            verificarTelefonos(contacto.telefonos);
+            verificarVacio(contacto.nombre, contacto.telefonos);
+            this.agenda.add(contacto);
+        }
     }
     
     public void eliminarContacto(Contacto aEliminar) throws CustomException{
@@ -35,26 +67,8 @@ public class Agenda implements Operaciones{
         
         this.agenda.remove(aEliminar); 
     }
-    
-    public void modificarContacto(Contacto aModificar, String nombre, 
-                                  List<String> telefonos, String email, 
-                                  String direccion, String alias) 
-                                  throws CustomException{
-        
-        if("".equals(nombre) || telefonos.isEmpty()){
-            throw new CustomException("Llene los campos obligatorios, "
-                                       +"marcados con *");
-        }
-        
-        aModificar.setNombre(nombre);
-        aModificar.setTelefonos(telefonos);
-        aModificar.setDireccion(direccion);
-        aModificar.setAlias(alias);
-        aModificar.setEmail(email);
-        
-    }
-    
-    public void consultar(String nombreCons, String telefonoCons, 
+     
+    public List<Contacto> consultar(String nombreCons, String telefonoCons, 
                           String emailCons, String direccionCons, 
                           String aliasCons) throws CustomException {
         
@@ -67,7 +81,7 @@ public class Agenda implements Operaciones{
                   .forEachOrdered((agenda1) -> {
                     aux.add(agenda1);
             });
-            verificar(aux);
+            verificarConsulta(aux);
         }
 //Luego consulta el teléfono en la agenda principal si la agenda auxiliar sigue
 //vacía tras la consulta por el nombre
@@ -77,7 +91,7 @@ public class Agenda implements Operaciones{
                   .forEachOrdered((agenda1) -> {
                       aux.add(agenda1);
             });
-            verificar(aux);
+            verificarConsulta(aux);
         }
         else{
 //Si la agenda auxiliar no está vacía tras la consulta por el nombre, la 
@@ -89,7 +103,7 @@ public class Agenda implements Operaciones{
                    .forEachOrdered((agenda1) -> {
                        aux.remove(agenda1);
                 });
-                verificar(aux);
+                verificarConsulta(aux);
             }
         }
 
@@ -102,7 +116,7 @@ public class Agenda implements Operaciones{
                   .forEachOrdered((agenda1) -> {
                       aux.add(agenda1);
             });
-            verificar(aux);
+            verificarConsulta(aux);
         }
         else{
             if(!"".equals(emailCons)){
@@ -111,7 +125,7 @@ public class Agenda implements Operaciones{
                    .forEachOrdered((agenda1) -> {
                        aux.remove(agenda1);
                 });
-                verificar(aux);
+                verificarConsulta(aux);
             }
         }
         
@@ -122,7 +136,7 @@ public class Agenda implements Operaciones{
                   .forEachOrdered((agenda1) -> {
                       aux.add(agenda1);
             });
-            verificar(aux);
+            verificarConsulta(aux);
         }
         else{
             if(!"".equals(direccionCons)){
@@ -132,7 +146,7 @@ public class Agenda implements Operaciones{
                    .forEachOrdered((agenda1) -> {
                        aux.remove(agenda1);
                 });
-                verificar(aux);
+                verificarConsulta(aux);
             }
         }
         
@@ -143,7 +157,7 @@ public class Agenda implements Operaciones{
                   .forEachOrdered((agenda1) -> {
                       aux.add(agenda1);
             });
-            verificar(aux);
+            verificarConsulta(aux);
         }
         else{
             if(!"".equals(aliasCons)){
@@ -153,14 +167,37 @@ public class Agenda implements Operaciones{
                    .forEachOrdered((agenda1) -> {
                        aux.remove(agenda1);
                 });
-                verificar(aux);
+                verificarConsulta(aux);
             }
         }
         
+        return aux;
+    }
+
+    @Override
+    public String toString() {
+        String impresion = "";
+        
+        for(Contacto contacto1: this.agenda){
+            impresion += contacto1.nombre +";";
+            for(String tel: contacto1.telefonos){
+                if(tel.equals(contacto1.telefonos.get(contacto1.telefonos
+                                                               .size()-1))){
+                    impresion += tel;
+                }else{
+                    impresion += tel + ",";
+                }
+            }
+            impresion += ";"+ contacto1.email;
+            impresion += ";"+ contacto1.direccion;
+            impresion += ";"+ contacto1.alias + "\n";
+        }
+        
+        return impresion;
     }
     
     @Override
-    public void verificar(List<Contacto> lista) throws CustomException{
+    public void verificarConsulta(List<Contacto> lista) throws CustomException{
         if(lista.isEmpty()){
             throw new CustomException("Ningún contacto cumple con la "
                                       +"consulta.");
@@ -179,4 +216,15 @@ public class Agenda implements Operaciones{
             }
         }
     }
+    
+    @Override
+    public void verificarVacio(String nombre, List<String> telefonos) 
+                                   throws CustomException{
+        if("".equals(nombre) || telefonos.isEmpty()){
+            throw new CustomException("Nombre y Telefonos son compos "
+                                      + "obligatorios");
+        }
+    }
+    
+    
 }

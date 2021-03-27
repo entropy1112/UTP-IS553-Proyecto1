@@ -13,8 +13,10 @@ import java.util.List;
  */
 public interface Operaciones {
     
-    public void verificar(List<Contacto> lista)throws CustomException;
+    public void verificarConsulta(List<Contacto> lista)throws CustomException;
     public void verificarTelefonos(List<String> telefonos)
+                                   throws CustomException;
+    public void verificarVacio(String nombre, List<String> telefonos) 
                                    throws CustomException;
     
 }

@@ -5,6 +5,9 @@
  */
 package IGU;
 
+import Clases.Agenda;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Sebastian
@@ -16,6 +19,8 @@ public class Inicio extends javax.swing.JFrame {
      */
     public Inicio() {
         initComponents();
+        
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -28,31 +33,36 @@ public class Inicio extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnImportar = new javax.swing.JButton();
+        btnNuevaAgenda = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnIniciar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("TuAgenda");
 
         jPanel2.setBackground(new java.awt.Color(51, 0, 51));
 
-        jButton2.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        jButton2.setText("Importar");
-        jButton2.setMaximumSize(new java.awt.Dimension(180, 50));
-        jButton2.setMinimumSize(new java.awt.Dimension(180, 50));
-        jButton2.setPreferredSize(new java.awt.Dimension(180, 50));
-        jPanel2.add(jButton2);
+        btnImportar.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        btnImportar.setText("Importar");
+        btnImportar.setMaximumSize(new java.awt.Dimension(180, 50));
+        btnImportar.setMinimumSize(new java.awt.Dimension(180, 50));
+        btnImportar.setPreferredSize(new java.awt.Dimension(180, 50));
+        jPanel2.add(btnImportar);
 
-        jButton3.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        jButton3.setText("Crear nueva");
-        jButton3.setMaximumSize(new java.awt.Dimension(180, 50));
-        jButton3.setMinimumSize(new java.awt.Dimension(180, 50));
-        jButton3.setPreferredSize(new java.awt.Dimension(180, 50));
-        jPanel2.add(jButton3);
+        btnNuevaAgenda.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        btnNuevaAgenda.setText("Crear nueva");
+        btnNuevaAgenda.setMaximumSize(new java.awt.Dimension(180, 50));
+        btnNuevaAgenda.setMinimumSize(new java.awt.Dimension(180, 50));
+        btnNuevaAgenda.setPreferredSize(new java.awt.Dimension(180, 50));
+        btnNuevaAgenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevaAgendaActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnNuevaAgenda);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
@@ -84,15 +94,27 @@ public class Inicio extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(51, 0, 51));
         jPanel3.setLayout(new java.awt.BorderLayout());
 
-        jButton1.setFont(new java.awt.Font("Times New Roman", 0, 36)); // NOI18N
-        jButton1.setText("Iniciar");
-        jButton1.setPreferredSize(new java.awt.Dimension(120, 50));
-        jPanel3.add(jButton1, java.awt.BorderLayout.CENTER);
+        btnIniciar.setFont(new java.awt.Font("Times New Roman", 0, 36)); // NOI18N
+        btnIniciar.setText("Iniciar");
+        btnIniciar.setPreferredSize(new java.awt.Dimension(120, 50));
+        jPanel3.add(btnIniciar, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnNuevaAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaAgendaActionPerformed
+        // TODO add your handling code here:
+        String dueño;
+        dueño = JOptionPane.showInputDialog("Ingrese el nombre del dueño:");
+        
+        Agenda agenda = new Agenda(dueño);
+        
+        VentAgenda ventana = new VentAgenda();
+        ventana.iniciarAgenda(agenda);
+        ventana.setVisible(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_btnNuevaAgendaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -130,9 +152,9 @@ public class Inicio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnImportar;
+    private javax.swing.JButton btnIniciar;
+    private javax.swing.JButton btnNuevaAgenda;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

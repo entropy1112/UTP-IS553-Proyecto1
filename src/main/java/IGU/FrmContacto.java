@@ -5,17 +5,23 @@
  */
 package IGU;
 
+import java.util.List;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Sebastian
  */
-public class FrmModificar extends javax.swing.JFrame {
+public class FrmContacto extends javax.swing.JFrame {
 
     /**
-     * Creates new form FrmModificar
+     * Creates new form FrmAñadir
      */
-    public FrmModificar() {
+    public FrmContacto() {
         initComponents();
+        
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -27,6 +33,8 @@ public class FrmModificar extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel5 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         txtNombre = new javax.swing.JTextField();
         txtTelefono = new javax.swing.JTextField();
@@ -40,17 +48,40 @@ public class FrmModificar extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Modificar Contacto");
+        setTitle("Datos de contacto");
+        setBackground(new java.awt.Color(51, 0, 51));
         setPreferredSize(new java.awt.Dimension(520, 320));
         setResizable(false);
 
+        jPanel5.setBackground(new java.awt.Color(51, 0, 51));
+
+        jButton1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jButton1.setText("Guardar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cargarEnDTO(evt);
+            }
+        });
+        jPanel5.add(jButton1);
+
+        getContentPane().add(jPanel5, java.awt.BorderLayout.PAGE_END);
+
         jPanel6.setBackground(new java.awt.Color(51, 0, 51));
 
+        txtTelefono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTelefonoActionPerformed(evt);
+            }
+        });
+
         jButton2.setText(">");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enviarALista(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 102));
@@ -131,18 +162,45 @@ public class FrmModificar extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel6, java.awt.BorderLayout.LINE_START);
-
-        jPanel5.setBackground(new java.awt.Color(51, 0, 51));
-
-        jButton1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jButton1.setText("Modificar");
-        jPanel5.add(jButton1);
-
-        getContentPane().add(jPanel5, java.awt.BorderLayout.PAGE_END);
+        getContentPane().add(jPanel6, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void enviarALista(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarALista
+        // TODO add your handling code here:
+        cmbTelefonos.addItem(txtTelefono.getText());
+        txtTelefono.setText("");
+    }//GEN-LAST:event_enviarALista
+
+    private void cargarEnDTO(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarEnDTO
+        // TODO add your handling code here:
+        
+        int opcion = JOptionPane.showConfirmDialog(this, 
+                                              "¿Está seguro que desea guardar?");
+        
+        if(opcion == JOptionPane.YES_OPTION){
+            DTO_contacto dto = new DTO_contacto();
+            
+            List<String> telefonos = new ArrayList();
+            for(int i=0; i<cmbTelefonos.getItemCount();i++){
+                telefonos.add(cmbTelefonos.getItemAt(i));
+            }
+
+            dto.setNombre(txtNombre.getText());
+            dto.setListaTelefonos(telefonos);
+            dto.setEmail(txtEmail.getText());
+            dto.setDireccion(txtDireccion.getText());
+            dto.setAlias(txtAlias.getText());
+            
+            JOptionPane.showMessageDialog(this, dto.toString());
+        }
+    }//GEN-LAST:event_cargarEnDTO
+
+    private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed
+        // TODO add your handling code here:
+        enviarALista(evt);
+    }//GEN-LAST:event_txtTelefonoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -161,20 +219,21 @@ public class FrmModificar extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmModificar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmContacto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmModificar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmContacto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmModificar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmContacto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmModificar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmContacto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmModificar().setVisible(true);
+                new FrmContacto().setVisible(true);
             }
         });
     }

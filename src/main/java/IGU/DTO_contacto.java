@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package IGU.Modelos;
+package IGU;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Sebastian
  */
-public class DTO_añadir {
+public class DTO_contacto {
     private String nombre;
     private List<String> listaTelefonos = new ArrayList();
     private String email;
