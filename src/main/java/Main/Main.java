@@ -7,7 +7,7 @@ package Main;
 
 import Clases.Agenda;
 import Clases.CustomException;
-import IGU.Inicio;
+import IGU.VentAgenda;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -20,8 +20,8 @@ public class Main {
     
     public static void main(String[] args) throws CustomException {
         
-        Inicio init = new Inicio();
-        init.setVisible(true);
+        VentAgenda ventana = new VentAgenda();
+        ventana.setVisible(true);
        // int opcion = escaner.nextInt();
       
 //        switch (opcion) {

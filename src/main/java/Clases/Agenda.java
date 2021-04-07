@@ -11,7 +11,7 @@ import java.util.List;
 public class Agenda implements Operaciones{
     //Atributos
     private String dueño;
-    public List<Contacto> agenda = new ArrayList();
+    public List<Contacto> contactos = new ArrayList();
     
     //Cosntructor
     public Agenda(String dueño) {
@@ -27,12 +27,12 @@ public class Agenda implements Operaciones{
         this.dueño = dueño;
     }
 
-    public List<Contacto> getAgenda() {
-        return agenda;
+    public List<Contacto> getContactos() {
+        return contactos;
     }
 
-    public void setAgenda(List<Contacto> agenda) {
-        this.agenda = agenda;
+    public void setContactos(List<Contacto> contactos) {
+        this.contactos = contactos;
     }
     
     
@@ -44,28 +44,28 @@ public class Agenda implements Operaciones{
         
         Contacto nuevo = new Contacto(nombre,telefonos,email,direccion,alias);
         
-        this.agenda.add(nuevo);
+        this.contactos.add(nuevo);
     }
     
     public void añadirContacto(Contacto contacto)
                                throws CustomException{
-        int op = agenda.indexOf(contacto);
+        int op = contactos.indexOf(contacto);
         if(op != -1){
-            agenda.set(op, contacto);
+            contactos.set(op, contacto);
         }else{
             verificarTelefonos(contacto.telefonos);
             verificarVacio(contacto.nombre, contacto.telefonos);
-            this.agenda.add(contacto);
+            this.contactos.add(contacto);
         }
     }
     
     public void eliminarContacto(Contacto aEliminar) throws CustomException{
         
-        if(!agenda.contains(aEliminar)){
+        if(!contactos.contains(aEliminar)){
             throw new CustomException("El contacto no pertenece a la agenda");
         }
         
-        this.agenda.remove(aEliminar); 
+        this.contactos.remove(aEliminar); 
     }
      
     public List<Contacto> consultar(String nombreCons, String telefonoCons, 
@@ -76,7 +76,7 @@ public class Agenda implements Operaciones{
         
 //Consulta por el nombre y guarda las coincidencias en una agenda auxiliar
         if(!"".equals(nombreCons)){
-            agenda.stream()
+            contactos.stream()
                   .filter((agenda1) -> (agenda1.nombre.contains(nombreCons)))
                   .forEachOrdered((agenda1) -> {
                     aux.add(agenda1);
@@ -86,7 +86,7 @@ public class Agenda implements Operaciones{
 //Luego consulta el teléfono en la agenda principal si la agenda auxiliar sigue
 //vacía tras la consulta por el nombre
         if(aux.isEmpty() && !"".equals(telefonoCons)){
-            agenda.stream()
+            contactos.stream()
                   .filter((agenda1)->(agenda1.telefonos.contains(telefonoCons)))
                   .forEachOrdered((agenda1) -> {
                       aux.add(agenda1);
@@ -111,7 +111,7 @@ public class Agenda implements Operaciones{
 //con los demás datos a consultar
         
         if(aux.isEmpty() && !"".equals(emailCons)){
-            agenda.stream()
+            contactos.stream()
                   .filter((agenda1)->(agenda1.email.contains(emailCons)))
                   .forEachOrdered((agenda1) -> {
                       aux.add(agenda1);
@@ -130,7 +130,7 @@ public class Agenda implements Operaciones{
         }
         
         if(aux.isEmpty() && !"".equals(direccionCons)){
-            agenda.stream()
+            contactos.stream()
                   .filter((agenda1)->(agenda1.direccion
                                              .contains(direccionCons)))
                   .forEachOrdered((agenda1) -> {
@@ -151,7 +151,7 @@ public class Agenda implements Operaciones{
         }
         
         if(aux.isEmpty() && !"".equals(aliasCons)){
-            agenda.stream()
+            contactos.stream()
                   .filter((agenda1)->(agenda1.alias
                                              .contains(aliasCons)))
                   .forEachOrdered((agenda1) -> {
@@ -178,7 +178,7 @@ public class Agenda implements Operaciones{
     public String toString() {
         String impresion = "";
         
-        for(Contacto contacto1: this.agenda){
+        for(Contacto contacto1: this.contactos){
             impresion += contacto1.nombre +";";
             for(String tel: contacto1.telefonos){
                 if(tel.equals(contacto1.telefonos.get(contacto1.telefonos
@@ -208,7 +208,7 @@ public class Agenda implements Operaciones{
     public void verificarTelefonos(List<String> telefonos)
                                    throws CustomException{
         for(String telefono1: telefonos){
-            for(Contacto contacto1: agenda){
+            for(Contacto contacto1: contactos){
                 if(contacto1.telefonos.contains(telefono1)){
                     throw new CustomException("El teléfono se repite en otro "
                                               +"contacto.");
