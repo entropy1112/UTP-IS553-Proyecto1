@@ -6,6 +6,7 @@
 package IGU;
 
 import Clases.Contacto;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -71,7 +72,7 @@ public class LibretaTableModel extends DefaultTableModel {
             case 0: // Nombre
                 return String.class;
             case 1: // Telefonos
-                return List.class;
+                return ArrayList.class;
             case 2: // Email
             case 3: // Direccion
             case 4: // Alias

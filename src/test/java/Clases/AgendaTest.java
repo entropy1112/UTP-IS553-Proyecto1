@@ -22,7 +22,7 @@ public class AgendaTest {
     @Test
     public void AñadirYEliminar() throws CustomException {
         
-        Agenda agenda = new Agenda("Sebas");
+        Agenda agenda = new Agenda();
         
         List<String> telefonos1 = new ArrayList();
         telefonos1.add("3241578421");
@@ -43,7 +43,7 @@ public class AgendaTest {
     @Test
     public void AñadirYConsultar() throws CustomException {
         
-        Agenda agenda = new Agenda("Sebas");
+        Agenda agenda = new Agenda();
         List<Contacto> consulta1 = new ArrayList();
         List<Contacto> consulta2 = new ArrayList();
         
@@ -78,7 +78,7 @@ public class AgendaTest {
     @Test
     public void AñadirEImprimir() throws CustomException {
         
-        Agenda agenda = new Agenda("Sebas");
+        Agenda agenda = new Agenda();
         String mensajeEsperado = "Camilo Mosquera Ospina;3241578421,3147841547;"
                 +";Mz 9 Cs 1;Milo\nBenito Armando Martinez;3487584417;"
                 + "benito_came@yahoo.com;;Beni\nGeovany Giraldo;3328967415;"
@@ -110,7 +110,7 @@ public class AgendaTest {
     @Test
     public void AñadirModificarEImprimir() throws CustomException {
         
-        Agenda agenda = new Agenda("Sebas");
+        Agenda agenda = new Agenda();
         String mensajeEsperado = "Camilo Mosquera Ospina;3241578421,3147841547;"
                 +";Mz 9 Cs 1;Milo\n"
                 + "Benito Armando Martinez;3487584417,3214875487;"

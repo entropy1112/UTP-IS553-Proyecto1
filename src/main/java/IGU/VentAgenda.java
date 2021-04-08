@@ -8,6 +8,9 @@ package IGU;
 import Clases.Agenda;
 import Clases.Contacto;
 import Clases.CustomException;
+import java.security.interfaces.ECKey;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -29,9 +32,9 @@ public final class VentAgenda extends javax.swing.JFrame {
      */
     public VentAgenda() {
         initComponents();
+        iniciarAgenda();
         
         setLocationRelativeTo(null);
-       // iniciarAgenda(this.getAgenda());
     }
 
     public Agenda getAgenda() {
@@ -72,6 +75,7 @@ public final class VentAgenda extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        btnQuitarTel = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -85,7 +89,7 @@ public final class VentAgenda extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        MenuArchivo = new javax.swing.JMenu();
         btnMenuNuevaAgenda = new javax.swing.JMenuItem();
         btnMenuImportarAgenda = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
@@ -103,6 +107,11 @@ public final class VentAgenda extends javax.swing.JFrame {
 
         btnAñadir.setText("Añadir Contacto");
         btnAñadir.setEnabled(false);
+        btnAñadir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAñadirActionPerformed(evt);
+            }
+        });
         jPanel7.add(btnAñadir);
 
         btnConsultar.setText("Consultar");
@@ -136,7 +145,7 @@ public final class VentAgenda extends javax.swing.JFrame {
         btnEnviarALista.setEnabled(false);
         btnEnviarALista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEnviarAListaenviarALista(evt);
+                btnEnviarAListaActionPerformed(evt);
             }
         });
 
@@ -167,6 +176,15 @@ public final class VentAgenda extends javax.swing.JFrame {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("Alias:");
 
+        btnQuitarTel.setFont(new java.awt.Font("Times New Roman", 1, 11)); // NOI18N
+        btnQuitarTel.setText("X");
+        btnQuitarTel.setEnabled(false);
+        btnQuitarTel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuitarTelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
@@ -183,12 +201,14 @@ public final class VentAgenda extends javax.swing.JFrame {
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtDireccion, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel9Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                         .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEnviarALista)
                         .addGap(18, 18, 18)
-                        .addComponent(cmbTelefonos, 0, 285, Short.MAX_VALUE))
+                        .addComponent(cmbTelefonos, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(7, 7, 7)
+                        .addComponent(btnQuitarTel))
                     .addComponent(txtNombre)
                     .addComponent(txtAlias))
                 .addContainerGap())
@@ -205,7 +225,8 @@ public final class VentAgenda extends javax.swing.JFrame {
                     .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEnviarALista)
                     .addComponent(cmbTelefonos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(btnQuitarTel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -274,11 +295,11 @@ public final class VentAgenda extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnExportar, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                    .addComponent(btnExportar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtAgendaActual, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
+                        .addComponent(txtAgendaActual)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -318,7 +339,7 @@ public final class VentAgenda extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnModificar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnModificar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -335,8 +356,11 @@ public final class VentAgenda extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -352,9 +376,9 @@ public final class VentAgenda extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -369,7 +393,7 @@ public final class VentAgenda extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
-        jMenu1.setText("Archivo");
+        MenuArchivo.setText("Archivo");
 
         btnMenuNuevaAgenda.setText("Nueva Agenda");
         btnMenuNuevaAgenda.addActionListener(new java.awt.event.ActionListener() {
@@ -377,16 +401,21 @@ public final class VentAgenda extends javax.swing.JFrame {
                 btnMenuNuevaAgendaActionPerformed(evt);
             }
         });
-        jMenu1.add(btnMenuNuevaAgenda);
+        MenuArchivo.add(btnMenuNuevaAgenda);
 
         btnMenuImportarAgenda.setText("Importar Agenda");
-        jMenu1.add(btnMenuImportarAgenda);
-        jMenu1.add(jSeparator1);
+        btnMenuImportarAgenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuImportarAgendaActionPerformed(evt);
+            }
+        });
+        MenuArchivo.add(btnMenuImportarAgenda);
+        MenuArchivo.add(jSeparator1);
 
         btnMenuGuardarYSalir.setText("Guardar y salir");
-        jMenu1.add(btnMenuGuardarYSalir);
+        MenuArchivo.add(btnMenuGuardarYSalir);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(MenuArchivo);
 
         setJMenuBar(jMenuBar1);
 
@@ -400,18 +429,16 @@ public final class VentAgenda extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
         int row = tblAgenda.getSelectedRow();
-        if(row == -1){
+        if(row != -1){
             if(JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(this,
-                                    "¿Está seguro que desea eliminar?",
-                                    getTitle(),JOptionPane.QUESTION_MESSAGE)){
+                                    "¿Está seguro que desea eliminar?")){
                 
                 Contacto c = tableModel.getDato(row);
                 
                 try {
                     agenda.eliminarContacto(c);
                 } catch (CustomException ex) {
-                    Logger.getLogger(VentAgenda.class.getName())
-                                                   .log(Level.SEVERE, null, ex);
+                  JOptionPane.showMessageDialog(this,"Error: "+ex.getMessage());
                 }
                 
                 tableModel.actualizarDatos();
@@ -423,11 +450,11 @@ public final class VentAgenda extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void btnEnviarAListaenviarALista(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarAListaenviarALista
+    private void btnEnviarAListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarAListaActionPerformed
         // TODO add your handling code here:
         cmbTelefonos.addItem(txtTelefono.getText());
         txtTelefono.setText("");
-    }//GEN-LAST:event_btnEnviarAListaenviarALista
+    }//GEN-LAST:event_btnEnviarAListaActionPerformed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         // TODO add your handling code here:
@@ -435,8 +462,72 @@ public final class VentAgenda extends javax.swing.JFrame {
 
     private void btnMenuNuevaAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuNuevaAgendaActionPerformed
         // TODO add your handling code here:
+        String dueño;
+        dueño = JOptionPane.showInputDialog("Ingrese el nombre del dueño:");
+        txtAgendaActual.setText(dueño);
+        
+        
+        txtNombre.setEnabled(true);
+        txtTelefono.setEnabled(true);
+        txtEmail.setEnabled(true);
+        txtDireccion.setEnabled(true);
+        txtAlias.setEnabled(true);
+        cmbTelefonos.setEnabled(true);
+        
+        btnEnviarALista.setEnabled(true);
+        btnAñadir.setEnabled(true);
+        btnConsultar.setEnabled(true);
+        btnExportar.setEnabled(true);
+        btnQuitarTel.setEnabled(true);
+        
+        tblAgenda.setEnabled(true);
     }//GEN-LAST:event_btnMenuNuevaAgendaActionPerformed
 
+    private void btnMenuImportarAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuImportarAgendaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMenuImportarAgendaActionPerformed
+
+    private void btnAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirActionPerformed
+        // TODO add your handling code here:
+        String nombre = txtNombre.getText();
+        String email = txtEmail.getText();
+        String direccion = txtDireccion.getText();
+        String alias = txtAlias.getText();
+        List<String> telefonos = new ArrayList<>();
+        
+        for(int i = 0; i < cmbTelefonos.getItemCount(); i++){
+            telefonos.add(cmbTelefonos.getItemAt(i));
+        }
+        
+        Contacto contacto = new Contacto(nombre,telefonos,email,direccion,alias);
+        try {
+            agenda.añadirContacto(contacto);
+            limpiarCampos();
+        } catch (CustomException ex) {
+            JOptionPane.showMessageDialog(this, "Error:"+ex.getMessage());
+        }
+        
+        tableModel.actualizarDatos();
+        
+    }//GEN-LAST:event_btnAñadirActionPerformed
+
+    private void btnQuitarTelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarTelActionPerformed
+        // TODO add your handling code here:
+        if(cmbTelefonos.getSelectedIndex() != -1){
+            cmbTelefonos.removeItemAt(cmbTelefonos.getSelectedIndex());
+        }
+    }//GEN-LAST:event_btnQuitarTelActionPerformed
+
+    public void limpiarCampos(){
+    
+        txtNombre.setText("");
+        txtEmail.setText("");
+        txtDireccion.setText("");
+        txtAlias.setText("");
+        cmbTelefonos.removeAllItems();
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -473,6 +564,7 @@ public final class VentAgenda extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu MenuArchivo;
     private javax.swing.JButton btnAñadir;
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnEliminar;
@@ -482,6 +574,7 @@ public final class VentAgenda extends javax.swing.JFrame {
     private javax.swing.JMenuItem btnMenuImportarAgenda;
     private javax.swing.JMenuItem btnMenuNuevaAgenda;
     private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnQuitarTel;
     private javax.swing.JComboBox<String> cmbTelefonos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -489,7 +582,6 @@ public final class VentAgenda extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -511,23 +603,22 @@ public final class VentAgenda extends javax.swing.JFrame {
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
     
-    public void iniciarAgenda(Agenda agenda){
+public void iniciarAgenda(){
+    agenda = new Agenda();
+    tableModel = new LibretaTableModel(agenda.getContactos());
         
-        tableModel = new LibretaTableModel(agenda.getContactos());
         
-        tblAgenda.setModel(tableModel);
         
-        txtAgendaActual.setText(agenda.getDueño());
+    tblAgenda.setModel(tableModel);
         
-        tblAgenda.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        tblAgenda.getSelectionModel()
+    tblAgenda.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    tblAgenda.getSelectionModel()
                  .addListSelectionListener((ListSelectionEvent e) -> {
-            int row = tblAgenda.getSelectedRow();
+        int row = tblAgenda.getSelectedRow();
             
-            btnEliminar.setEnabled(row != -1);
-            btnModificar.setEnabled(row != -1);
-        });
-    }
+        btnEliminar.setEnabled(row != -1);
+        btnModificar.setEnabled(row != -1);
+    });
     
-
+}
 }

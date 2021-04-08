@@ -10,22 +10,13 @@ import java.util.List;
  */
 public class Agenda implements Operaciones{
     //Atributos
-    private String dueño;
     public List<Contacto> contactos = new ArrayList();
     
     //Cosntructor
-    public Agenda(String dueño) {
-        this.dueño = dueño;
+    public Agenda() {
     }
     
     //Métodos
-    public String getDueño() {
-        return dueño;
-    }
-
-    public void setDueño(String dueño) {
-        this.dueño = dueño;
-    }
 
     public List<Contacto> getContactos() {
         return contactos;
@@ -210,8 +201,8 @@ public class Agenda implements Operaciones{
         for(String telefono1: telefonos){
             for(Contacto contacto1: contactos){
                 if(contacto1.telefonos.contains(telefono1)){
-                    throw new CustomException("El teléfono se repite en otro "
-                                              +"contacto.");
+                    throw new CustomException("El teléfono "+telefono1+" se "
+                                              + "repite en otro contacto.");
                 }
             }
         }
