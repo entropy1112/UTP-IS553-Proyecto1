@@ -5,6 +5,7 @@
  */
 package Clases;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -18,5 +19,6 @@ public interface Operaciones {
                                    throws CustomException;
     public void verificarVacio(String nombre, List<String> telefonos) 
                                    throws CustomException;
-    
+    public void exportar(File archivo);
+    public void importar(File archivo);
 }

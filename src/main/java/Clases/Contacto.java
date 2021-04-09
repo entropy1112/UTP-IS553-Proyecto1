@@ -1,15 +1,15 @@
 
 package Clases;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  *
  * @author Sebastian
  */
-public class Contacto {
+public class Contacto implements Serializable{
     // Atributos
     protected final Double id = Math.random()*1000;
     protected String nombre; 
@@ -83,32 +83,5 @@ public class Contacto {
     public List<String> getTelefonos() {
         return telefonos;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 89 * hash + Objects.hashCode(this.nombre);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Contacto other = (Contacto) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return true;
-    }
-    
-    
-    
+ 
 }

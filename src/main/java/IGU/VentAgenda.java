@@ -8,9 +8,11 @@ package IGU;
 import Clases.Agenda;
 import Clases.Contacto;
 import Clases.CustomException;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -45,7 +47,6 @@ public final class VentAgenda extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jProgressBar1 = new javax.swing.JProgressBar();
         jPanel1 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         btnAñadir = new javax.swing.JButton();
@@ -287,6 +288,11 @@ public final class VentAgenda extends javax.swing.JFrame {
         btnExportar.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         btnExportar.setText("Exportar");
         btnExportar.setEnabled(false);
+        btnExportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -409,6 +415,11 @@ public final class VentAgenda extends javax.swing.JFrame {
         MenuArchivo.add(btnMenuNuevaAgenda);
 
         btnMenuImportarAgenda.setText("Importar Agenda");
+        btnMenuImportarAgenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuImportarAgendaActionPerformed(evt);
+            }
+        });
         MenuArchivo.add(btnMenuImportarAgenda);
         MenuArchivo.add(jSeparator1);
 
@@ -590,6 +601,56 @@ public final class VentAgenda extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnGuardarModActionPerformed
 
+    private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
+        // TODO add your handling code here:
+        
+        if(JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(this, 
+                        "Texto a exportar:\n"+agenda.toString() ,"Exportar", 
+                        JOptionPane.YES_NO_OPTION)){
+            
+            JFileChooser fc = new JFileChooser();
+            
+            if(fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION){
+            File archivo = fc.getSelectedFile();
+            
+            agenda.exportar(archivo);
+            }
+        }
+    }//GEN-LAST:event_btnExportarActionPerformed
+
+    private void btnMenuImportarAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuImportarAgendaActionPerformed
+        // TODO add your handling code here:
+        
+        JFileChooser fc = new JFileChooser();
+        
+        if(fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+            File archivo = fc.getSelectedFile();
+            
+            agenda.importar(archivo);
+            
+            txtAgendaActual.setText(archivo.getName());
+
+            txtNombre.setEnabled(true);
+            txtTelefono.setEnabled(true);
+            txtEmail.setEnabled(true);
+            txtDireccion.setEnabled(true);
+            txtAlias.setEnabled(true);
+            cmbTelefonos.setEnabled(true);
+
+            btnEnviarALista.setEnabled(true);
+            btnAñadir.setEnabled(true);
+            btnConsultar.setEnabled(true);
+            btnExportar.setEnabled(true);
+            btnQuitarTel.setEnabled(true);
+            btnCancelar.setEnabled(true);
+
+            tblAgenda.setEnabled(true);
+
+            tableModel.setDatos(agenda.getContactos());
+        }
+        
+    }//GEN-LAST:event_btnMenuImportarAgendaActionPerformed
+
     public void iniciarAgenda(){
         agenda = new Agenda();
         tableModel = new LibretaTableModel(agenda.getContactos());
@@ -684,7 +745,6 @@ public final class VentAgenda extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTable tblAgenda;

@@ -1,15 +1,16 @@
 
 package Clases;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.io.*;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Sebastian
  */
-public class Agenda implements Operaciones{
+public class Agenda implements Operaciones, Serializable{
     //Atributos
     public List<Contacto> contactos = new ArrayList();
     
@@ -178,6 +179,50 @@ public class Agenda implements Operaciones{
         }
         
         return consulta;
+    }
+    
+    @Override
+    public void exportar(File archivo){
+        
+        try (java.io.PrintWriter salida = new PrintWriter(archivo)){
+                salida.print(this.toString());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Agenda.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Override
+    public void importar(File archivo){
+        
+        List<Contacto> importados = new ArrayList<>();
+        
+        try {
+            var lector = new Scanner(archivo);
+            
+            while(lector.hasNextLine()){
+                List<String> telefonos = new ArrayList<>();
+                var campos = lector.nextLine().split(";",5);
+
+                var nombre = campos[0];
+                var numeros = campos[1].split(",");
+                
+                telefonos.addAll(Arrays.asList(numeros));
+                
+                var email = campos[2];
+                var direccion = campos[3];
+                var alias = campos[4];
+                
+                Contacto c = new Contacto(nombre,telefonos,email,direccion,
+                                          alias);
+                importados.add(c);
+            }
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Agenda.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        this.setContactos(importados);
+        
     }
 
     @Override
