@@ -36,7 +36,11 @@ public class Contacto {
     
     //Métodos
     
-    public void añadirNumero(String telefono){
+    public Double getId(){
+        return id;
+    }
+
+    public void añadirNumero(String telefono) {
         this.telefonos.add(telefono);
     }
 

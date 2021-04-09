@@ -3,6 +3,7 @@ package Clases;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -30,7 +31,7 @@ public class Agenda implements Operaciones{
     public void añadirContacto(String nombre, List<String> telefonos, 
                                String email, String direccion, String alias)
                                throws CustomException{
-        verificarTelefonos(telefonos);
+        verificarTelefonos(telefonos, 0.0);
         verificarVacio(nombre, telefonos);
         
         Contacto nuevo = new Contacto(nombre,telefonos,email,direccion,alias);
@@ -44,7 +45,7 @@ public class Agenda implements Operaciones{
         if(op != -1){
             contactos.set(op, contacto);
         }else{
-            verificarTelefonos(contacto.telefonos);
+            verificarTelefonos(contacto.telefonos, contacto.id);
             verificarVacio(contacto.nombre, contacto.telefonos);
             this.contactos.add(contacto);
         }
@@ -64,6 +65,7 @@ public class Agenda implements Operaciones{
                           String aliasCons) throws CustomException {
         
         List<Contacto> aux = new ArrayList();
+        List<Contacto> consulta = new ArrayList();
         
 //Consulta por el nombre y guarda las coincidencias en una agenda auxiliar
         if(!"".equals(nombreCons)){
@@ -72,7 +74,8 @@ public class Agenda implements Operaciones{
                   .forEachOrdered((agenda1) -> {
                     aux.add(agenda1);
             });
-            verificarConsulta(aux);
+            consulta.addAll(aux);
+            verificarConsulta(consulta);
         }
 //Luego consulta el teléfono en la agenda principal si la agenda auxiliar sigue
 //vacía tras la consulta por el nombre
@@ -82,7 +85,8 @@ public class Agenda implements Operaciones{
                   .forEachOrdered((agenda1) -> {
                       aux.add(agenda1);
             });
-            verificarConsulta(aux);
+            consulta.addAll(aux);
+            verificarConsulta(consulta);
         }
         else{
 //Si la agenda auxiliar no está vacía tras la consulta por el nombre, la 
@@ -92,9 +96,11 @@ public class Agenda implements Operaciones{
                 aux.stream()
                    .filter((agenda1)->(!agenda1.telefonos.contains(telefonoCons)))
                    .forEachOrdered((agenda1) -> {
-                       aux.remove(agenda1);
+                       consulta.remove(agenda1);
                 });
-                verificarConsulta(aux);
+                aux.removeAll(aux);
+                aux.addAll(consulta);
+                verificarConsulta(consulta);
             }
         }
 
@@ -107,16 +113,19 @@ public class Agenda implements Operaciones{
                   .forEachOrdered((agenda1) -> {
                       aux.add(agenda1);
             });
-            verificarConsulta(aux);
+            consulta.addAll(aux);
+            verificarConsulta(consulta);
         }
         else{
             if(!"".equals(emailCons)){
                 aux.stream()
                    .filter((agenda1)->(!agenda1.email.contains(emailCons)))
                    .forEachOrdered((agenda1) -> {
-                       aux.remove(agenda1);
+                       consulta.remove(agenda1);
                 });
-                verificarConsulta(aux);
+                aux.removeAll(aux);
+                aux.addAll(consulta);
+                verificarConsulta(consulta);
             }
         }
         
@@ -127,7 +136,8 @@ public class Agenda implements Operaciones{
                   .forEachOrdered((agenda1) -> {
                       aux.add(agenda1);
             });
-            verificarConsulta(aux);
+            consulta.addAll(aux);
+            verificarConsulta(consulta);
         }
         else{
             if(!"".equals(direccionCons)){
@@ -135,9 +145,11 @@ public class Agenda implements Operaciones{
                    .filter((agenda1)->(!agenda1.direccion
                                                .contains(direccionCons)))
                    .forEachOrdered((agenda1) -> {
-                       aux.remove(agenda1);
+                       consulta.remove(agenda1);
                 });
-                verificarConsulta(aux);
+                aux.removeAll(aux);
+                aux.addAll(consulta);
+                verificarConsulta(consulta);
             }
         }
         
@@ -148,7 +160,8 @@ public class Agenda implements Operaciones{
                   .forEachOrdered((agenda1) -> {
                       aux.add(agenda1);
             });
-            verificarConsulta(aux);
+            consulta.addAll(aux);
+            verificarConsulta(consulta);
         }
         else{
             if(!"".equals(aliasCons)){
@@ -156,13 +169,15 @@ public class Agenda implements Operaciones{
                    .filter((agenda1)->(!agenda1.alias
                                                .contains(aliasCons)))
                    .forEachOrdered((agenda1) -> {
-                       aux.remove(agenda1);
+                       consulta.remove(agenda1);
                 });
+                aux.removeAll(aux);
+                aux.addAll(consulta);
                 verificarConsulta(aux);
             }
         }
         
-        return aux;
+        return consulta;
     }
 
     @Override
@@ -196,13 +211,16 @@ public class Agenda implements Operaciones{
     }
     
     @Override
-    public void verificarTelefonos(List<String> telefonos)
+    public void verificarTelefonos(List<String> telefonos, Double id)
                                    throws CustomException{
         for(String telefono1: telefonos){
             for(Contacto contacto1: contactos){
-                if(contacto1.telefonos.contains(telefono1)){
-                    throw new CustomException("El teléfono "+telefono1+" se "
-                                              + "repite en otro contacto.");
+                if(Objects.equals(contacto1.getId(), id)){
+                }else{
+                    if(contacto1.telefonos.contains(telefono1)){
+                        throw new CustomException("El teléfono "+telefono1
+                                              +" se repite en otro contacto.");
+                    }
                 }
             }
         }

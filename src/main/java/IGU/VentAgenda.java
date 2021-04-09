@@ -8,11 +8,9 @@ package IGU;
 import Clases.Agenda;
 import Clases.Contacto;
 import Clases.CustomException;
-import java.security.interfaces.ECKey;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Objects;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -25,6 +23,7 @@ import javax.swing.event.ListSelectionEvent;
 public final class VentAgenda extends javax.swing.JFrame {
     
     private Agenda agenda;
+    private Double idMod;
     private LibretaTableModel tableModel;
     
     /**
@@ -36,16 +35,6 @@ public final class VentAgenda extends javax.swing.JFrame {
         
         setLocationRelativeTo(null);
     }
-
-    public Agenda getAgenda() {
-        return agenda;
-    }
-
-    public void setAgenda(Agenda agenda) {
-        this.agenda = agenda;
-    }
-    
-    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -61,7 +50,8 @@ public final class VentAgenda extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         btnAñadir = new javax.swing.JButton();
         btnConsultar = new javax.swing.JButton();
-        javax.swing.JButton btnGuardarModificacion = new javax.swing.JButton();
+        btnGuardarMod = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         txtNombre = new javax.swing.JTextField();
         txtTelefono = new javax.swing.JTextField();
@@ -123,9 +113,24 @@ public final class VentAgenda extends javax.swing.JFrame {
         });
         jPanel7.add(btnConsultar);
 
-        btnGuardarModificacion.setText("Modificar");
-        btnGuardarModificacion.setEnabled(false);
-        jPanel7.add(btnGuardarModificacion);
+        btnGuardarMod.setText("Modificar");
+        btnGuardarMod.setEnabled(false);
+        btnGuardarMod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarModActionPerformed(evt);
+            }
+        });
+        jPanel7.add(btnGuardarMod);
+
+        btnCancelar.setText("Cancelar");
+        btnCancelar.setToolTipText("");
+        btnCancelar.setEnabled(false);
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+        jPanel7.add(btnCancelar);
 
         jPanel1.add(jPanel7, java.awt.BorderLayout.PAGE_END);
 
@@ -202,7 +207,7 @@ public final class VentAgenda extends javax.swing.JFrame {
                     .addComponent(txtDireccion, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                        .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEnviarALista)
                         .addGap(18, 18, 18)
@@ -282,11 +287,6 @@ public final class VentAgenda extends javax.swing.JFrame {
         btnExportar.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         btnExportar.setText("Exportar");
         btnExportar.setEnabled(false);
-        btnExportar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExportarActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -330,6 +330,11 @@ public final class VentAgenda extends javax.swing.JFrame {
         btnModificar.setFont(new java.awt.Font("Times New Roman", 1, 11)); // NOI18N
         btnModificar.setText("Modificar contacto");
         btnModificar.setEnabled(false);
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -404,11 +409,6 @@ public final class VentAgenda extends javax.swing.JFrame {
         MenuArchivo.add(btnMenuNuevaAgenda);
 
         btnMenuImportarAgenda.setText("Importar Agenda");
-        btnMenuImportarAgenda.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMenuImportarAgendaActionPerformed(evt);
-            }
-        });
         MenuArchivo.add(btnMenuImportarAgenda);
         MenuArchivo.add(jSeparator1);
 
@@ -421,10 +421,6 @@ public final class VentAgenda extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnExportarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
@@ -444,7 +440,7 @@ public final class VentAgenda extends javax.swing.JFrame {
                 tableModel.actualizarDatos();
                 
                 JOptionPane.showMessageDialog(this, 
-                        "Persona eliminada exitosamente", getTitle(), 
+                        "Contacto eliminada exitosamente", getTitle(), 
                         JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -458,6 +454,16 @@ public final class VentAgenda extends javax.swing.JFrame {
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         // TODO add your handling code here:
+        Agenda aux = new Agenda();
+        try {
+            aux.contactos = agenda.consultar(txtNombre.getText(), 
+                                    txtTelefono.getText(),txtEmail.getText(), 
+                                    txtDireccion.getText(),txtAlias.getText());
+        } catch (CustomException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+        
+        System.out.println(aux.toString());
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnMenuNuevaAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuNuevaAgendaActionPerformed
@@ -465,7 +471,6 @@ public final class VentAgenda extends javax.swing.JFrame {
         String dueño;
         dueño = JOptionPane.showInputDialog("Ingrese el nombre del dueño:");
         txtAgendaActual.setText(dueño);
-        
         
         txtNombre.setEnabled(true);
         txtTelefono.setEnabled(true);
@@ -479,13 +484,10 @@ public final class VentAgenda extends javax.swing.JFrame {
         btnConsultar.setEnabled(true);
         btnExportar.setEnabled(true);
         btnQuitarTel.setEnabled(true);
+        btnCancelar.setEnabled(true);
         
         tblAgenda.setEnabled(true);
     }//GEN-LAST:event_btnMenuNuevaAgendaActionPerformed
-
-    private void btnMenuImportarAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuImportarAgendaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnMenuImportarAgendaActionPerformed
 
     private void btnAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirActionPerformed
         // TODO add your handling code here:
@@ -504,7 +506,7 @@ public final class VentAgenda extends javax.swing.JFrame {
             agenda.añadirContacto(contacto);
             limpiarCampos();
         } catch (CustomException ex) {
-            JOptionPane.showMessageDialog(this, "Error:"+ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error: "+ex.getMessage());
         }
         
         tableModel.actualizarDatos();
@@ -518,13 +520,102 @@ public final class VentAgenda extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnQuitarTelActionPerformed
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        limpiarCampos();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        // TODO add your handling code here:
+        int row = tblAgenda.getSelectedRow();
+        
+        if(row != -1){
+            Contacto c = tableModel.getDato(row);
+            
+            txtNombre.setText(c.getNombre());
+            txtEmail.setText(c.getEmail());
+            txtDireccion.setText(c.getDireccion());
+            txtAlias.setText(c.getAlias());
+            
+            c.getTelefonos().forEach((telefono1) -> {
+                cmbTelefonos.addItem(telefono1);
+            });
+            
+            btnAñadir.setEnabled(false);
+            btnConsultar.setEnabled(false);
+            btnGuardarMod.setEnabled(true);
+            
+            idMod = c.getId();
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnGuardarModActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarModActionPerformed
+        // TODO add your handling code here:
+        int row = tblAgenda.getSelectedRow();
+        
+        Contacto c = tableModel.getDato(row);
+        List<String> telefonos = new ArrayList();
+        
+        if(Objects.equals(c.getId(), idMod)){
+            try {
+                for(int i = 0; i < cmbTelefonos.getItemCount(); i++){
+                    telefonos.add(cmbTelefonos.getItemAt(i));
+                }
+                
+                agenda.verificarTelefonos(telefonos,idMod);
+                agenda.verificarVacio(txtNombre.getText(), telefonos);
+                
+                c.setNombre(txtNombre.getText());
+                c.setEmail(txtEmail.getText());
+                c.setDireccion(txtDireccion.getText());
+                c.setAlias(txtAlias.getText());
+                c.setTelefonos(telefonos);
+            
+                JOptionPane.showMessageDialog(this,"Contacto modificado con éxito");
+            
+                tableModel.actualizarDatos();
+                btnAñadir.setEnabled(true);
+                btnConsultar.setEnabled(true);
+                btnGuardarMod.setEnabled(false);
+                limpiarCampos();
+                
+            } catch (CustomException ex) {
+                JOptionPane.showMessageDialog(this, "Error: "+ex.getMessage());
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Seleccione en la tabla el "
+                                                + "contacto a modificar");
+        }
+        
+    }//GEN-LAST:event_btnGuardarModActionPerformed
+
+    public void iniciarAgenda(){
+        agenda = new Agenda();
+        tableModel = new LibretaTableModel(agenda.getContactos());
+         
+        tblAgenda.setModel(tableModel);
+        
+        tblAgenda.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tblAgenda.getSelectionModel()
+                 .addListSelectionListener((ListSelectionEvent e) -> {
+            int row = tblAgenda.getSelectedRow();
+            
+            btnEliminar.setEnabled(row != -1);
+            btnModificar.setEnabled(row != -1);
+    });
+    
+    }
+    
     public void limpiarCampos(){
     
         txtNombre.setText("");
+        txtTelefono.setText("");
         txtEmail.setText("");
         txtDireccion.setText("");
         txtAlias.setText("");
         cmbTelefonos.removeAllItems();
+        idMod = 0.0;
         
     }
     
@@ -566,10 +657,12 @@ public final class VentAgenda extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu MenuArchivo;
     private javax.swing.JButton btnAñadir;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnEnviarALista;
     private javax.swing.JButton btnExportar;
+    private javax.swing.JButton btnGuardarMod;
     private javax.swing.JMenuItem btnMenuGuardarYSalir;
     private javax.swing.JMenuItem btnMenuImportarAgenda;
     private javax.swing.JMenuItem btnMenuNuevaAgenda;
@@ -603,22 +696,5 @@ public final class VentAgenda extends javax.swing.JFrame {
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
     
-public void iniciarAgenda(){
-    agenda = new Agenda();
-    tableModel = new LibretaTableModel(agenda.getContactos());
-        
-        
-        
-    tblAgenda.setModel(tableModel);
-        
-    tblAgenda.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    tblAgenda.getSelectionModel()
-                 .addListSelectionListener((ListSelectionEvent e) -> {
-        int row = tblAgenda.getSelectedRow();
-            
-        btnEliminar.setEnabled(row != -1);
-        btnModificar.setEnabled(row != -1);
-    });
-    
-}
+
 }

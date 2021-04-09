@@ -23,9 +23,6 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Importar Agenda"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMenuImportarAgendaActionPerformed"/>
-              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
             </MenuItem>
@@ -113,15 +110,24 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConsultarActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="btnGuardarModificacion">
+            <Component class="javax.swing.JButton" name="btnGuardarMod">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Modificar"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
-                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-              </AuxValues>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarModActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnCancelar">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Cancelar"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelarActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -154,7 +160,7 @@
                           <Component id="txtDireccion" alignment="1" max="32767" attributes="0"/>
                           <Component id="txtEmail" alignment="1" max="32767" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="txtTelefono" min="-2" pref="170" max="-2" attributes="0"/>
+                              <Component id="txtTelefono" pref="170" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnEnviarALista" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -515,9 +521,6 @@
                     <Property name="text" type="java.lang.String" value="Exportar"/>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExportarActionPerformed"/>
-                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -585,6 +588,9 @@
                     <Property name="text" type="java.lang.String" value="Modificar contacto"/>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnModificarActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
