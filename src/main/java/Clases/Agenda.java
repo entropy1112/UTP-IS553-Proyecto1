@@ -52,6 +52,13 @@ public class Agenda implements Operaciones, Serializable{
         }
     }
     
+    public void añadirContactos(List<Contacto> contactos)
+                               throws CustomException{
+        for(Contacto contacto1: contactos){
+            this.añadirContacto(contacto1);
+        }
+    }
+    
     public void eliminarContacto(Contacto aEliminar) throws CustomException{
         
         if(!contactos.contains(aEliminar)){
@@ -182,17 +189,17 @@ public class Agenda implements Operaciones, Serializable{
     }
     
     @Override
-    public void exportar(File archivo){
+    public void exportar(File archivo) throws CustomException{
         
         try (java.io.PrintWriter salida = new PrintWriter(archivo)){
                 salida.print(this.toString());
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Agenda.class.getName()).log(Level.SEVERE, null, ex);
+            throw new CustomException("No se encontró el archivo");
         }
     }
     
     @Override
-    public void importar(File archivo){
+    public void importar(File archivo) throws CustomException{
         
         List<Contacto> importados = new ArrayList<>();
         
@@ -218,7 +225,41 @@ public class Agenda implements Operaciones, Serializable{
             }
             
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Agenda.class.getName()).log(Level.SEVERE, null, ex);
+            throw new CustomException("No se encontró el archivo");
+        }
+        
+        this.añadirContactos(importados);
+        
+    }
+    
+    @Override
+    public void cargar(File archivo) throws CustomException{
+        
+        List<Contacto> importados = new ArrayList<>();
+        
+        try {
+            var lector = new Scanner(archivo);
+            
+            while(lector.hasNextLine()){
+                List<String> telefonos = new ArrayList<>();
+                var campos = lector.nextLine().split(";",5);
+
+                var nombre = campos[0];
+                var numeros = campos[1].split(",");
+                
+                telefonos.addAll(Arrays.asList(numeros));
+                
+                var email = campos[2];
+                var direccion = campos[3];
+                var alias = campos[4];
+                
+                Contacto c = new Contacto(nombre,telefonos,email,direccion,
+                                          alias);
+                importados.add(c);
+            }
+            
+        } catch (FileNotFoundException ex) {
+            throw new CustomException("No se encontró el archivo");
         }
         
         this.setContactos(importados);

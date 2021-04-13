@@ -1,5 +1,6 @@
-Sebastian Narvaez Jaramillo;3233295771,123;;Mz 9 Cs 12;Sebis
+Sebastian Narvaez Jaramillo;3233295771,123;;Mz 9 Cs 12;Sebas
 Camilo Mosquera Ospina;1457,78541,8965;camileitor@gmail.com;;Milo
-Armando Rodolfo Benavidez;8964;;;Beni
+Armando Rodolfo Benavidez;8964;armandoCasas@correo.com;;Beni
 Diana Paola Ossa;31462178,1313;Diana@hotmail.com;;
 Santiago Palacio;96478;Palaciosan@correo.com;Mz 32 Cs 12;
+Milena Jaramillo;3148754,784125;Milejara123@gmail.com;Mz 9 Cs 32;Mile

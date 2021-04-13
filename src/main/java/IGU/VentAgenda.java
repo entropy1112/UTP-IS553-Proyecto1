@@ -9,9 +9,17 @@ import Clases.Agenda;
 import Clases.Contacto;
 import Clases.CustomException;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -26,6 +34,7 @@ public final class VentAgenda extends javax.swing.JFrame {
     
     private Agenda agenda;
     private Double idMod;
+    private String rutaArchivo = "";
     private LibretaTableModel tableModel;
     
     /**
@@ -34,6 +43,7 @@ public final class VentAgenda extends javax.swing.JFrame {
     public VentAgenda() {
         initComponents();
         iniciarAgenda();
+        cargarArchivo();
         
         setLocationRelativeTo(null);
     }
@@ -82,6 +92,7 @@ public final class VentAgenda extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         MenuArchivo = new javax.swing.JMenu();
         btnMenuNuevaAgenda = new javax.swing.JMenuItem();
+        btnMenuCargar = new javax.swing.JMenuItem();
         btnMenuImportarAgenda = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         btnMenuGuardarYSalir = new javax.swing.JMenuItem();
@@ -301,22 +312,21 @@ public final class VentAgenda extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnExportar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnExportar, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtAgendaActual)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(txtAgendaActual))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtAgendaActual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(btnExportar, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtAgendaActual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(btnExportar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -414,7 +424,16 @@ public final class VentAgenda extends javax.swing.JFrame {
         });
         MenuArchivo.add(btnMenuNuevaAgenda);
 
+        btnMenuCargar.setText("Cargar Agenda");
+        btnMenuCargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuCargarActionPerformed(evt);
+            }
+        });
+        MenuArchivo.add(btnMenuCargar);
+
         btnMenuImportarAgenda.setText("Importar Agenda");
+        btnMenuImportarAgenda.setEnabled(false);
         btnMenuImportarAgenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMenuImportarAgendaActionPerformed(evt);
@@ -424,6 +443,11 @@ public final class VentAgenda extends javax.swing.JFrame {
         MenuArchivo.add(jSeparator1);
 
         btnMenuGuardarYSalir.setText("Guardar y salir");
+        btnMenuGuardarYSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuGuardarYSalirActionPerformed(evt);
+            }
+        });
         MenuArchivo.add(btnMenuGuardarYSalir);
 
         jMenuBar1.add(MenuArchivo);
@@ -470,34 +494,43 @@ public final class VentAgenda extends javax.swing.JFrame {
             aux.contactos = agenda.consultar(txtNombre.getText(), 
                                     txtTelefono.getText(),txtEmail.getText(), 
                                     txtDireccion.getText(),txtAlias.getText());
+            
+            JOptionPane.showMessageDialog(this,"Los contactos que cumplen con "
+                                         + "la consulta son:\n"+aux.toString());
         } catch (CustomException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());
         }
         
-        System.out.println(aux.toString());
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnMenuNuevaAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuNuevaAgendaActionPerformed
         // TODO add your handling code here:
-        String dueño;
-        dueño = JOptionPane.showInputDialog("Ingrese el nombre del dueño:");
-        txtAgendaActual.setText(dueño);
+
+        JFileChooser fc = new JFileChooser();
         
-        txtNombre.setEnabled(true);
-        txtTelefono.setEnabled(true);
-        txtEmail.setEnabled(true);
-        txtDireccion.setEnabled(true);
-        txtAlias.setEnabled(true);
-        cmbTelefonos.setEnabled(true);
-        
-        btnEnviarALista.setEnabled(true);
-        btnAñadir.setEnabled(true);
-        btnConsultar.setEnabled(true);
-        btnExportar.setEnabled(true);
-        btnQuitarTel.setEnabled(true);
-        btnCancelar.setEnabled(true);
-        
-        tblAgenda.setEnabled(true);
+        if(fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION){
+            Path archivo = fc.getSelectedFile().toPath();
+            
+            if (Files.notExists(archivo)) {
+                try {
+                    archivo = Files.createFile(fc.getSelectedFile().toPath());
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(this, "IoException"
+                                                        +ex.getMessage());
+                }
+            }
+            
+            try {
+                agenda.cargar(archivo.toFile());
+            } catch (CustomException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
+            
+            tableModel.setDatos(agenda.getContactos());
+            txtAgendaActual.setText(archivo.toFile().getName());
+            btnMenuImportarAgenda.setEnabled(true);
+            activarCampos();
+        }
     }//GEN-LAST:event_btnMenuNuevaAgendaActionPerformed
 
     private void btnAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirActionPerformed
@@ -611,9 +644,13 @@ public final class VentAgenda extends javax.swing.JFrame {
             JFileChooser fc = new JFileChooser();
             
             if(fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION){
-            File archivo = fc.getSelectedFile();
+                File archivo = fc.getSelectedFile();
             
-            agenda.exportar(archivo);
+                try {
+                    agenda.exportar(archivo);
+                } catch (CustomException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                }
             }
         }
     }//GEN-LAST:event_btnExportarActionPerformed
@@ -626,32 +663,65 @@ public final class VentAgenda extends javax.swing.JFrame {
         if(fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
             File archivo = fc.getSelectedFile();
             
-            agenda.importar(archivo);
-            
-            txtAgendaActual.setText(archivo.getName());
-
-            txtNombre.setEnabled(true);
-            txtTelefono.setEnabled(true);
-            txtEmail.setEnabled(true);
-            txtDireccion.setEnabled(true);
-            txtAlias.setEnabled(true);
-            cmbTelefonos.setEnabled(true);
-
-            btnEnviarALista.setEnabled(true);
-            btnAñadir.setEnabled(true);
-            btnConsultar.setEnabled(true);
-            btnExportar.setEnabled(true);
-            btnQuitarTel.setEnabled(true);
-            btnCancelar.setEnabled(true);
-
-            tblAgenda.setEnabled(true);
+            try {
+                agenda.importar(archivo);
+            } catch (CustomException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
 
             tableModel.setDatos(agenda.getContactos());
         }
         
     }//GEN-LAST:event_btnMenuImportarAgendaActionPerformed
 
-    public void iniciarAgenda(){
+    private void btnMenuCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuCargarActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fc = new JFileChooser();
+        
+        if(fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+            File archivo = fc.getSelectedFile();
+            
+            try {
+                agenda.cargar(archivo);
+            } catch (CustomException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
+            
+            rutaArchivo = archivo.getPath();
+            txtAgendaActual.setText(archivo.getName());
+            btnMenuImportarAgenda.setEnabled(true);
+            activarCampos();
+
+            tableModel.setDatos(agenda.getContactos());
+        }  
+    }//GEN-LAST:event_btnMenuCargarActionPerformed
+
+    private void btnMenuGuardarYSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuGuardarYSalirActionPerformed
+        // TODO add your handling code here:
+        
+        if(!"".equals(rutaArchivo)){
+            File archivo = new File(rutaArchivo);
+            
+            try {
+                agenda.exportar(archivo);
+            } catch (CustomException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
+            try {
+                guardarRuta();
+            } catch (FileNotFoundException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
+            
+            System.exit(0);
+        }
+        else{
+          JOptionPane.showMessageDialog(this,"No tiene ningún archivo cargado");
+        }
+        
+    }//GEN-LAST:event_btnMenuGuardarYSalirActionPerformed
+
+    public void iniciarAgenda() {
         agenda = new Agenda();
         tableModel = new LibretaTableModel(agenda.getContactos());
          
@@ -664,7 +734,37 @@ public final class VentAgenda extends javax.swing.JFrame {
             
             btnEliminar.setEnabled(row != -1);
             btnModificar.setEnabled(row != -1);
-    });
+        });
+        
+    }
+    
+    public void cargarArchivo(){
+        
+        File ultimaRuta = new File("D:\\Ing de sistemas\\Programación IV\\"
+                               + "UTP-IS553-Proyecto1\\UltimaRuta.txt");
+        try {
+            String ruta;
+            try (java.util.Scanner lector = new Scanner(ultimaRuta)) {
+                ruta = lector.nextLine();
+                System.out.println(ruta);
+            }
+            
+            if(!"".equals(ruta)){
+                var archivo = new File(ruta);
+                agenda.cargar(archivo);
+                
+                rutaArchivo = archivo.getPath();
+                txtAgendaActual.setText(archivo.getName());
+                btnMenuImportarAgenda.setEnabled(true);
+                activarCampos();
+
+                tableModel.setDatos(agenda.getContactos());
+            }
+            
+        } catch (FileNotFoundException e) {
+        } catch (CustomException ex) {
+            Logger.getLogger(VentAgenda.class.getName()).log(Level.SEVERE, null, ex);
+        }
     
     }
     
@@ -678,6 +778,34 @@ public final class VentAgenda extends javax.swing.JFrame {
         cmbTelefonos.removeAllItems();
         idMod = 0.0;
         
+    }
+    
+    public void activarCampos(){
+        
+        txtNombre.setEnabled(true);
+        txtTelefono.setEnabled(true);
+        txtEmail.setEnabled(true);
+        txtDireccion.setEnabled(true);
+        txtAlias.setEnabled(true);
+        cmbTelefonos.setEnabled(true);
+        
+        btnEnviarALista.setEnabled(true);
+        btnAñadir.setEnabled(true);
+        btnConsultar.setEnabled(true);
+        btnExportar.setEnabled(true);
+        btnQuitarTel.setEnabled(true);
+        btnCancelar.setEnabled(true);
+        
+        tblAgenda.setEnabled(true);
+        
+    }
+    
+    public void guardarRuta() throws FileNotFoundException{
+        File archivo = new File("D:\\Ing de sistemas\\Programación IV\\"
+                               + "UTP-IS553-Proyecto1\\UltimaRuta.txt");
+        try (java.io.PrintWriter salida = new PrintWriter(archivo)) {
+            salida.print(rutaArchivo);
+        }
     }
     
     /**
@@ -724,6 +852,7 @@ public final class VentAgenda extends javax.swing.JFrame {
     private javax.swing.JButton btnEnviarALista;
     private javax.swing.JButton btnExportar;
     private javax.swing.JButton btnGuardarMod;
+    private javax.swing.JMenuItem btnMenuCargar;
     private javax.swing.JMenuItem btnMenuGuardarYSalir;
     private javax.swing.JMenuItem btnMenuImportarAgenda;
     private javax.swing.JMenuItem btnMenuNuevaAgenda;
