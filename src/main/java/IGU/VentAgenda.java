@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -34,7 +32,8 @@ public final class VentAgenda extends javax.swing.JFrame {
     
     private Agenda agenda;
     private Double idMod;
-    private String rutaArchivo = "";
+    private final String refRuta = "refRuta.txt";
+    private String ultimaRuta = "";
     private LibretaTableModel tableModel;
     
     /**
@@ -43,7 +42,7 @@ public final class VentAgenda extends javax.swing.JFrame {
     public VentAgenda() {
         initComponents();
         iniciarAgenda();
-        cargarArchivo();
+        cargarUltimoArchivo();
         
         setLocationRelativeTo(null);
     }
@@ -89,6 +88,7 @@ public final class VentAgenda extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         btnEliminar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         MenuArchivo = new javax.swing.JMenu();
         btnMenuNuevaAgenda = new javax.swing.JMenuItem();
@@ -352,6 +352,14 @@ public final class VentAgenda extends javax.swing.JFrame {
             }
         });
 
+        btnGuardar.setText("Guardar");
+        btnGuardar.setEnabled(false);
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -359,6 +367,7 @@ public final class VentAgenda extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnModificar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE))
                 .addContainerGap())
@@ -370,7 +379,9 @@ public final class VentAgenda extends javax.swing.JFrame {
                 .addComponent(btnEliminar)
                 .addGap(18, 18, 18)
                 .addComponent(btnModificar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnGuardar)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -475,7 +486,7 @@ public final class VentAgenda extends javax.swing.JFrame {
                 tableModel.actualizarDatos();
                 
                 JOptionPane.showMessageDialog(this, 
-                        "Contacto eliminada exitosamente", getTitle(), 
+                        "Contacto eliminado exitosamente", getTitle(), 
                         JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -489,18 +500,26 @@ public final class VentAgenda extends javax.swing.JFrame {
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         // TODO add your handling code here:
-        Agenda aux = new Agenda();
-        try {
-            aux.contactos = agenda.consultar(txtNombre.getText(), 
+        if(txtNombre.getText().equals("") && txtTelefono.getText().equals("") &&
+           txtEmail.getText().equals("") && txtDireccion.getText().equals("") &&
+           txtAlias.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "La consulta está vacía");
+        }else{
+            
+            Agenda aux = new Agenda();
+            try {
+                aux.contactos = agenda.consultar(txtNombre.getText(), 
                                     txtTelefono.getText(),txtEmail.getText(), 
                                     txtDireccion.getText(),txtAlias.getText());
             
-            JOptionPane.showMessageDialog(this,"Los contactos que cumplen con "
+                JOptionPane.showMessageDialog(this,"Los contactos que cumplen con "
                                          + "la consulta son:\n"+aux.toString());
-        } catch (CustomException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
+            } catch (CustomException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
+            
         }
-        
+
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnMenuNuevaAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuNuevaAgendaActionPerformed
@@ -526,6 +545,7 @@ public final class VentAgenda extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, ex.getMessage());
             }
             
+            ultimaRuta = archivo.toFile().getPath();
             tableModel.setDatos(agenda.getContactos());
             txtAgendaActual.setText(archivo.toFile().getName());
             btnMenuImportarAgenda.setEnabled(true);
@@ -566,7 +586,15 @@ public final class VentAgenda extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
-        limpiarCampos();
+        if(btnGuardarMod.isEnabled()){
+            limpiarCampos();
+            btnGuardarMod.setEnabled(false);
+            btnAñadir.setEnabled(true);
+            btnConsultar.setEnabled(true);
+        }else{
+            limpiarCampos();
+        }
+
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
@@ -629,7 +657,7 @@ public final class VentAgenda extends javax.swing.JFrame {
         }
         else{
             JOptionPane.showMessageDialog(this, "Seleccione en la tabla el "
-                                                + "contacto a modificar");
+                                             + "contacto correcto a modificar");
         }
         
     }//GEN-LAST:event_btnGuardarModActionPerformed
@@ -687,7 +715,7 @@ public final class VentAgenda extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, ex.getMessage());
             }
             
-            rutaArchivo = archivo.getPath();
+            ultimaRuta = archivo.getPath();
             txtAgendaActual.setText(archivo.getName());
             btnMenuImportarAgenda.setEnabled(true);
             activarCampos();
@@ -699,11 +727,12 @@ public final class VentAgenda extends javax.swing.JFrame {
     private void btnMenuGuardarYSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuGuardarYSalirActionPerformed
         // TODO add your handling code here:
         
-        if(!"".equals(rutaArchivo)){
-            File archivo = new File(rutaArchivo);
+        if(!"".equals(ultimaRuta)){
+            File archivo = new File(ultimaRuta);
             
             try {
                 agenda.exportar(archivo);
+                JOptionPane.showMessageDialog(this, "Guardado exitoso");
             } catch (CustomException ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage());
             }
@@ -720,6 +749,32 @@ public final class VentAgenda extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_btnMenuGuardarYSalirActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        
+        if(!"".equals(ultimaRuta)){
+            File archivo = new File(ultimaRuta);
+            
+            try {
+                agenda.exportar(archivo);
+                JOptionPane.showMessageDialog(this, "Guardado exitoso");
+            } catch (CustomException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
+            try {
+                guardarRuta();
+            } catch (FileNotFoundException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
+            
+        }
+        else{
+          JOptionPane.showMessageDialog(this,"No tiene ningún archivo cargado");
+        }
+        
+        
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     public void iniciarAgenda() {
         agenda = new Agenda();
@@ -738,22 +793,20 @@ public final class VentAgenda extends javax.swing.JFrame {
         
     }
     
-    public void cargarArchivo(){
+    public void cargarUltimoArchivo(){
         
-        File ultimaRuta = new File("D:\\Ing de sistemas\\Programación IV\\"
-                               + "UTP-IS553-Proyecto1\\UltimaRuta.txt");
+        File archivoRefRuta = new File(refRuta);
         try {
             String ruta;
-            try (java.util.Scanner lector = new Scanner(ultimaRuta)) {
+            try (java.util.Scanner lector = new Scanner(archivoRefRuta)) {
                 ruta = lector.nextLine();
-                System.out.println(ruta);
             }
             
             if(!"".equals(ruta)){
                 var archivo = new File(ruta);
                 agenda.cargar(archivo);
                 
-                rutaArchivo = archivo.getPath();
+                this.ultimaRuta = archivo.getPath();
                 txtAgendaActual.setText(archivo.getName());
                 btnMenuImportarAgenda.setEnabled(true);
                 activarCampos();
@@ -763,7 +816,7 @@ public final class VentAgenda extends javax.swing.JFrame {
             
         } catch (FileNotFoundException e) {
         } catch (CustomException ex) {
-            Logger.getLogger(VentAgenda.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
     
     }
@@ -795,16 +848,16 @@ public final class VentAgenda extends javax.swing.JFrame {
         btnExportar.setEnabled(true);
         btnQuitarTel.setEnabled(true);
         btnCancelar.setEnabled(true);
+        btnGuardar.setEnabled(true);
         
         tblAgenda.setEnabled(true);
         
     }
     
     public void guardarRuta() throws FileNotFoundException{
-        File archivo = new File("D:\\Ing de sistemas\\Programación IV\\"
-                               + "UTP-IS553-Proyecto1\\UltimaRuta.txt");
-        try (java.io.PrintWriter salida = new PrintWriter(archivo)) {
-            salida.print(rutaArchivo);
+        File archivoRef = new File(refRuta);
+        try (java.io.PrintWriter salida = new PrintWriter(archivoRef)) {
+            salida.print(ultimaRuta);
         }
     }
     
@@ -851,6 +904,7 @@ public final class VentAgenda extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnEnviarALista;
     private javax.swing.JButton btnExportar;
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnGuardarMod;
     private javax.swing.JMenuItem btnMenuCargar;
     private javax.swing.JMenuItem btnMenuGuardarYSalir;

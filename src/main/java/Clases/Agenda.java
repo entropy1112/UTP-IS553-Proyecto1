@@ -3,14 +3,12 @@ package Clases;
 
 import java.io.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Sebastian
  */
-public class Agenda implements Operaciones, Serializable{
+public class Agenda implements Operaciones{
     //Atributos
     public List<Contacto> contactos = new ArrayList();
     
@@ -259,7 +257,7 @@ public class Agenda implements Operaciones, Serializable{
             }
             
         } catch (FileNotFoundException ex) {
-            throw new CustomException("No se encontró el archivo");
+            throw new CustomException("No se encontró el archivo precargado");
         }
         
         this.setContactos(importados);

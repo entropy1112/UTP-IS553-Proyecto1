@@ -1,7 +1,7 @@
 Armando Benavidez ;3157841547,3247856987;;Altos de Allá - apto 2;
 Luis Alberto Spinetta;3148577777;elFlaco@gmail.com;;El flaco 
 Melanie Martinez;3657841245;MelaMarti@hotmail.com;;Mela
-Carlos Palacio;3567841236;;Medallo papá;Pala
+Carlos Palacio;3567841236,1245;;Medallo papá;Pala
 Camila Guevara;3127845631,3126981245;Cami1245@yahoo.es;;Cami
 Jorge Drexler;3427869845,78451397;;Mz 34 Cs 1 - Los guaviares;Jorgito
 Silvio Rodriguez;4571238962;SilvioRodriguez_yatusae@gmail.com;;

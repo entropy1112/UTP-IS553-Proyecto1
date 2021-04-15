@@ -1,7 +1,6 @@
 
 package Clases;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +8,7 @@ import java.util.List;
  *
  * @author Sebastian
  */
-public class Contacto implements Serializable{
+public class Contacto{
     // Atributos
     protected final Double id = Math.random()*1000;
     protected String nombre; 
