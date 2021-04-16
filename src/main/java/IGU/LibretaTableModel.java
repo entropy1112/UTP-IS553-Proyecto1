@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class LibretaTableModel extends DefaultTableModel {
 
-    private final String[] columnas = {"Nombre", "Telefonos", "Email",
+    private final String[] columnas = {"Nombre", "Telefonos", "Lugar", "Email",
                                        "Dirección", "Alias"};
     private List<Contacto> datos;
 
@@ -51,11 +51,13 @@ public class LibretaTableModel extends DefaultTableModel {
                 return contacto.getNombre();
             case 1: // Telefonos
                 return contacto.getTelefonos();
-            case 2: // Email
+            case 2: // Lugar
+                return contacto.getLugar();
+            case 3: // Email
                 return contacto.getEmail();
-            case 3: // Direccion
+            case 4: // Direccion
                 return contacto.getDireccion();
-            case 4: // Alias
+            case 5: // Alias
                 return contacto.getAlias();
         }
         return super.getValueAt(row, column);
@@ -73,9 +75,10 @@ public class LibretaTableModel extends DefaultTableModel {
                 return String.class;
             case 1: // Telefonos
                 return ArrayList.class;
-            case 2: // Email
-            case 3: // Direccion
-            case 4: // Alias
+            case 2: // Lugar
+            case 3: // Email
+            case 4: // Direccion
+            case 5: // Alias
                 return String.class;
 
         }

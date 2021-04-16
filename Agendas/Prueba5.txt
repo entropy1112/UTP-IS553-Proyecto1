@@ -1,30 +1,31 @@
-Armando Benavidez ;3157841547,3247856987;;Altos de Allá - apto 2;
-Luis Alberto Spinetta;3148577777;elFlaco@gmail.com;;El flaco 
-Melanie Martinez;3657841245;MelaMarti@hotmail.com;;Mela
-Carlos Palacio;3567841236,1245;;Medallo papá;Pala
-Camila Guevara;3127845631,3126981245;Cami1245@yahoo.es;;Cami
-Jorge Drexler;3427869845,78451397;;Mz 34 Cs 1 - Los guaviares;Jorgito
-Silvio Rodriguez;4571238962;SilvioRodriguez_yatusae@gmail.com;;
-Natalia Lafourcade;4651237964;;;
-Facundo Cabral;1268495712,3678412596;;Ni de aquí, ni de allá;
-Camilo Blandes;3647851452;;El cielo;Camilo Sesto
-Till Lindermann;9856241784;;Walterfausen Mt 223 - ahgt 3;Till
-Johan Sebastian Bach;4512968745;;El cielo también;BWV
-Alberto Lleras Camargo;3241547863;alberticoCamargo@gmail.com;;
-Alberto Cortéz;1245786325;Alberto_4578@yahoo.ar;Un castillo en el aire;Cortéz
-Celia Cruz;6451248569;C_Cruz@hotmail.com;;
-Rubén Hernandez;7841356125;rubeExtremo@gmail.com;;Rube
-David Simour;7841263547;David_simour@hotmail.com;;
-Michael Jackson;9647814523;;Un bunker en argentina;Maicol
-Simone de Beavoir;7843651265;Simona@gmail.com;;Simone
-Carl Terry Cline;4623784141;;;Damon
-Virginia Wolf;3641524814;WolfOfVirginia@yahoo.us;;
-Yuval Noah Karari;32648715425;;Entre animales y dioses;Noé
-Julian Casablanca;36521457841;JulioStrokes@gmail.com;;
-Laura Pargolizzi;34881245395;;;LP
-Niccolo Pagannini;3648781524;Pagano666@elinfierno.ls;;El violinista del Diablo
-Wladislaw Spilmann;3647851423;;;El pianista
-Gaspar Noé;786941254;;La rue de la Mormartré;El puerco
-Roman Polansky;456661245;RomanWasausky@hotmail.com;10050 Cielo Drive;
-Alfonso Lopez Pumarejo;1345786345;;;El liberal
-Laura Cristina Marín;9784501301;CrisMarín@gmail.com;;Lauris
+Armando Benavidez ;3157841547,3247856987;Corea;;Altos de Alla - apto 2;
+Luis Alberto Spinetta;3148577777;Buenos Aires;elFlaco@gmail.com;;El flaco
+Melanie Martinez;3657841245;La carcel;MelaMarti@hotmail.com;;Mela
+Carlos Palacio;3567841236,1245;La comuna 13;;Medallo papa;Pala
+Camila Guevara;3127845631,3126981245;UTP;Cami1245@yahoo.es;;Cami
+Jorge Drexler;3427869845,78451397;La paz;;Mz 34 Cs 1 - Los guaviares;Jorgito
+Silvio Rodriguez;4571238962;La poncena;SilvioRodriguez_yatusae@gmail.com;;
+Natalia Lafourcade;4651237964;Machu Pichu;;;
+Facundo Cabral;1268495712,3678412596;Ni aqui ni alla;;Ni de aqui, ni de alla;
+Camilo Blandes;3647851452;El victoria;;El cielo;Camilo Sesto
+Till Lindermann;9856241784;Berlin;;Walterfausen Mt 223 - ahgt 3;Till
+Johan Sebastian Bach;4512968745;Berlin;;El cielo tambien;BWV
+Alberto Lleras Camargo;3241547863;Bogota;alberticoCamargo@gmail.com;;
+Alberto Cortez;1245786325;Buenos aires;Alberto_4578@yahoo.ar;Un castillo en el aire;Cortez
+Celia Cruz;6451248569;En el barrio;C_Cruz@hotmail.com;;
+Ruben Hernandez;7841356125;Madrid;rubeExtremo@gmail.com;;Rube
+David Simour;7841263547;En mis suenos;David_simour@hotmail.com;;
+Michael Jackson;9647814523;Cuba;;Un bunker en argentina;Maicol
+Simone de Beavoir;7843651265;Paris;Simona@gmail.com;;Simone
+Carl Terry Cline;4623784141;Un libro;;;Damon
+Virginia Wolf;3641524814;Chicago;WolfOfVirginia@yahoo.us;;
+Yuval Noah Karari;32648715425;Bogota;;Entre animales y dioses;Noe
+Julian Casablanca;36521457841;La jinca;JulioStrokes@gmail.com;;
+Laura Pargolizzi;34881245395;Por internet;;;LP
+Niccolo Pagannini;3648781524;El infierno;Pagano666@elinfierno.ls;;El violinista del Diablo
+Wladislaw Spilmann;3647851423;Polonia;;;El pianista
+Gaspar Noe;786941254;Paris;;La rue de la Mormartre;El puerco
+Roman Polansky;456661245;Suecia;RomanWasausky@hotmail.com;10050 Cielo Drive;
+Alfonso Lopez Pumarejo;1345786345;Bogota;;;El liberal
+Laura Cristina Marin;9784501301;El colegio;CrisMarin@gmail.com;;Lauris
+Cesar ;6317,959;UTP;;;

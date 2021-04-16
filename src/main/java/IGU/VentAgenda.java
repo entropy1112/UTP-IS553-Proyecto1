@@ -76,6 +76,8 @@ public final class VentAgenda extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         btnQuitarTel = new javax.swing.JButton();
+        txtLugar = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -171,12 +173,12 @@ public final class VentAgenda extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 102));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel2.setText("Nombre:");
+        jLabel2.setText("Nombre:*");
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 102));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel3.setText("Telefonos:");
+        jLabel3.setText("Telefonos:*");
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 102));
@@ -202,6 +204,11 @@ public final class VentAgenda extends javax.swing.JFrame {
             }
         });
 
+        jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 102));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setText("Lugar:*");
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
@@ -213,7 +220,8 @@ public final class VentAgenda extends javax.swing.JFrame {
                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtDireccion, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -227,7 +235,8 @@ public final class VentAgenda extends javax.swing.JFrame {
                         .addGap(7, 7, 7)
                         .addComponent(btnQuitarTel))
                     .addComponent(txtNombre)
-                    .addComponent(txtAlias))
+                    .addComponent(txtAlias)
+                    .addComponent(txtLugar))
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
@@ -244,7 +253,11 @@ public final class VentAgenda extends javax.swing.JFrame {
                     .addComponent(cmbTelefonos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addComponent(btnQuitarTel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtLugar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
@@ -397,7 +410,7 @@ public final class VentAgenda extends javax.swing.JFrame {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -419,7 +432,7 @@ public final class VentAgenda extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -509,8 +522,9 @@ public final class VentAgenda extends javax.swing.JFrame {
             Agenda aux = new Agenda();
             try {
                 aux.contactos = agenda.consultar(txtNombre.getText(), 
-                                    txtTelefono.getText(),txtEmail.getText(), 
-                                    txtDireccion.getText(),txtAlias.getText());
+                                    txtTelefono.getText(),txtLugar.getText(),
+                                    txtEmail.getText(), txtDireccion.getText(),
+                                    txtAlias.getText());
             
                 JOptionPane.showMessageDialog(this,"Los contactos que cumplen con "
                                          + "la consulta son:\n"+aux.toString());
@@ -556,6 +570,7 @@ public final class VentAgenda extends javax.swing.JFrame {
     private void btnAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirActionPerformed
         // TODO add your handling code here:
         String nombre = txtNombre.getText();
+        String lugar = txtLugar.getText();
         String email = txtEmail.getText();
         String direccion = txtDireccion.getText();
         String alias = txtAlias.getText();
@@ -565,7 +580,8 @@ public final class VentAgenda extends javax.swing.JFrame {
             telefonos.add(cmbTelefonos.getItemAt(i));
         }
         
-        Contacto contacto = new Contacto(nombre,telefonos,email,direccion,alias);
+        Contacto contacto = new Contacto(nombre,telefonos,lugar,email,direccion,
+                                         alias);
         try {
             agenda.añadirContacto(contacto);
             limpiarCampos();
@@ -605,6 +621,7 @@ public final class VentAgenda extends javax.swing.JFrame {
             Contacto c = tableModel.getDato(row);
             
             txtNombre.setText(c.getNombre());
+            txtLugar.setText(c.getLugar());
             txtEmail.setText(c.getEmail());
             txtDireccion.setText(c.getDireccion());
             txtAlias.setText(c.getAlias());
@@ -635,9 +652,11 @@ public final class VentAgenda extends javax.swing.JFrame {
                 }
                 
                 agenda.verificarTelefonos(telefonos,idMod);
-                agenda.verificarVacio(txtNombre.getText(), telefonos);
+                agenda.verificarVacio(txtNombre.getText(), telefonos, 
+                                      txtLugar.getText());
                 
                 c.setNombre(txtNombre.getText());
+                c.setLugar(txtLugar.getText());
                 c.setEmail(txtEmail.getText());
                 c.setDireccion(txtDireccion.getText());
                 c.setAlias(txtAlias.getText());
@@ -825,6 +844,7 @@ public final class VentAgenda extends javax.swing.JFrame {
     
         txtNombre.setText("");
         txtTelefono.setText("");
+        txtLugar.setText("");
         txtEmail.setText("");
         txtDireccion.setText("");
         txtAlias.setText("");
@@ -919,6 +939,7 @@ public final class VentAgenda extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -935,6 +956,7 @@ public final class VentAgenda extends javax.swing.JFrame {
     private javax.swing.JTextField txtAlias;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtLugar;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables

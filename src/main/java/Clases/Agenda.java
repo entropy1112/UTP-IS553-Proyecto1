@@ -28,12 +28,13 @@ public class Agenda implements Operaciones{
     
     
     public void añadirContacto(String nombre, List<String> telefonos, 
-                               String email, String direccion, String alias)
+                               String lugar, String email, String direccion, 
+                               String alias)
                                throws CustomException{
         verificarTelefonos(telefonos, 0.0);
-        verificarVacio(nombre, telefonos);
+        verificarVacio(nombre, telefonos, lugar);
         
-        Contacto nuevo = new Contacto(nombre,telefonos,email,direccion,alias);
+        Contacto nuevo = new Contacto(nombre,telefonos,lugar,email,direccion,alias);
         
         this.contactos.add(nuevo);
     }
@@ -45,7 +46,7 @@ public class Agenda implements Operaciones{
             contactos.set(op, contacto);
         }else{
             verificarTelefonos(contacto.telefonos, contacto.id);
-            verificarVacio(contacto.nombre, contacto.telefonos);
+            verificarVacio(contacto.nombre, contacto.telefonos, contacto.lugar);
             this.contactos.add(contacto);
         }
     }
@@ -67,8 +68,9 @@ public class Agenda implements Operaciones{
     }
      
     public List<Contacto> consultar(String nombreCons, String telefonoCons, 
-                          String emailCons, String direccionCons, 
-                          String aliasCons) throws CustomException {
+                          String lugarCons, String emailCons, 
+                          String direccionCons, String aliasCons) 
+                          throws CustomException {
         
         List<Contacto> aux = new ArrayList();
         List<Contacto> consulta = new ArrayList();
@@ -113,6 +115,28 @@ public class Agenda implements Operaciones{
 //La lógica de busqueda anterior, en agenda principal o en auxiliar, se repite
 //con los demás datos a consultar
         
+        if(aux.isEmpty() && !"".equals(lugarCons)){
+            contactos.stream()
+                  .filter((agenda1)->(agenda1.lugar.contains(lugarCons)))
+                  .forEachOrdered((agenda1) -> {
+                      aux.add(agenda1);
+            });
+            consulta.addAll(aux);
+            verificarConsulta(consulta);
+        }
+        else{
+            if(!"".equals(lugarCons)){
+                aux.stream()
+                   .filter((agenda1)->(!agenda1.lugar.contains(lugarCons)))
+                   .forEachOrdered((agenda1) -> {
+                       consulta.remove(agenda1);
+                });
+                aux.removeAll(aux);
+                aux.addAll(consulta);
+                verificarConsulta(consulta);
+            }
+        }
+
         if(aux.isEmpty() && !"".equals(emailCons)){
             contactos.stream()
                   .filter((agenda1)->(agenda1.email.contains(emailCons)))
@@ -206,19 +230,20 @@ public class Agenda implements Operaciones{
             
             while(lector.hasNextLine()){
                 List<String> telefonos = new ArrayList<>();
-                var campos = lector.nextLine().split(";",5);
+                var campos = lector.nextLine().split(";",6);
 
                 var nombre = campos[0];
                 var numeros = campos[1].split(",");
                 
                 telefonos.addAll(Arrays.asList(numeros));
                 
-                var email = campos[2];
-                var direccion = campos[3];
-                var alias = campos[4];
+                var lugar = campos[2];
+                var email = campos[3];
+                var direccion = campos[4];
+                var alias = campos[5];
                 
-                Contacto c = new Contacto(nombre,telefonos,email,direccion,
-                                          alias);
+                Contacto c = new Contacto(nombre,telefonos,lugar,email,
+                                          direccion,alias);
                 importados.add(c);
             }
             
@@ -240,19 +265,20 @@ public class Agenda implements Operaciones{
             
             while(lector.hasNextLine()){
                 List<String> telefonos = new ArrayList<>();
-                var campos = lector.nextLine().split(";",5);
+                var campos = lector.nextLine().split(";",6);
 
                 var nombre = campos[0];
                 var numeros = campos[1].split(",");
                 
                 telefonos.addAll(Arrays.asList(numeros));
                 
-                var email = campos[2];
-                var direccion = campos[3];
-                var alias = campos[4];
+                var lugar = campos[2];
+                var email = campos[3];
+                var direccion = campos[4];
+                var alias = campos[5];
                 
-                Contacto c = new Contacto(nombre,telefonos,email,direccion,
-                                          alias);
+                Contacto c = new Contacto(nombre,telefonos,lugar,email,
+                                          direccion,alias);
                 importados.add(c);
             }
             
@@ -278,6 +304,7 @@ public class Agenda implements Operaciones{
                     impresion += tel + ",";
                 }
             }
+            impresion += ";"+ contacto1.lugar;
             impresion += ";"+ contacto1.email;
             impresion += ";"+ contacto1.direccion;
             impresion += ";"+ contacto1.alias + "\n";
@@ -311,10 +338,11 @@ public class Agenda implements Operaciones{
     }
     
     @Override
-    public void verificarVacio(String nombre, List<String> telefonos) 
+    public void verificarVacio(String nombre, List<String> telefonos, 
+                               String lugar) 
                                    throws CustomException{
-        if("".equals(nombre) || telefonos.isEmpty()){
-            throw new CustomException("Nombre y Telefonos son compos "
+        if("".equals(nombre) || telefonos.isEmpty() || "".equals(lugar)){
+            throw new CustomException("Nombre, Telefonos y lugar son campos "
                                       + "obligatorios");
         }
     }

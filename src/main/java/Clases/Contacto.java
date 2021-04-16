@@ -13,28 +13,39 @@ public class Contacto{
     protected final Double id = Math.random()*1000;
     protected String nombre; 
     protected String direccion;
+    protected String lugar;
     protected String email;
     protected String alias;
     protected List<String> telefonos = new ArrayList();
     
     //Constructores
 
-    public Contacto(String nombre, List<String> telefonos) {
+    public Contacto(String nombre, List<String> telefonos, String lugar) {
         this.nombre = nombre;
         this.telefonos = telefonos;
+        this.lugar = lugar;
     }
 
-    public Contacto(String nombre, List<String> telefonos, String email, 
+    public Contacto(String nombre, List<String> telefonos, String lugar, String email, 
                     String direccion, String alias) {
         this.nombre = nombre;
         this.telefonos = telefonos;
+        this.lugar = lugar;
         this.direccion = direccion;
         this.email = email;
         this.alias = alias;
     }
     
     //Métodos
-    
+
+    public String getLugar() {
+        return lugar;
+    }
+
+    public void setLugar(String lugar) {
+        this.lugar = lugar;
+    }
+
     public Double getId(){
         return id;
     }

@@ -17,8 +17,8 @@ public interface Operaciones {
     public void verificarConsulta(List<Contacto> lista)throws CustomException;
     public void verificarTelefonos(List<String> telefonos, Double id)
                                    throws CustomException;
-    public void verificarVacio(String nombre, List<String> telefonos) 
-                                   throws CustomException;
+    public void verificarVacio(String nombre, List<String> telefonos, 
+                               String lugar) throws CustomException;
     public void exportar(File archivo) throws CustomException;
     public void importar(File archivo) throws CustomException;
     public void cargar(File archivo) throws CustomException;
